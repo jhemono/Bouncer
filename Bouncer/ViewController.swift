@@ -45,6 +45,8 @@ class ViewController: UIViewController {
         addBlock()
     }
     
+    var blocks = [UIView]()
+    
     func addBlock() {
         let block = UIView()
         block.frame.size = blockSize
@@ -52,9 +54,36 @@ class ViewController: UIViewController {
         block.backgroundColor = UIColor.redColor()
         
         view.addSubview(block)
+        blocks.append(block)
         realGravityBehavior.addItem(block)
     }
+    
+    var attachments = [UIAttachmentBehavior]()
 
+    @IBAction func panView(sender: UIPanGestureRecognizer) {
+        let location = sender.locationInView(view)
+        
+        switch sender.state {
+        case .Began :
+            let targetedBlocks = blocks.filter { $0.frame.contains(location) }
+            attachments = targetedBlocks.map {
+                let attachment = UIAttachmentBehavior(item: $0, attachedToAnchor: location)
+                animator.addBehavior(attachment)
+                return attachment
+            }
+        case .Changed:
+            for attachment in attachments {
+                attachment.anchorPoint = location
+            }
+        default:
+            if !attachments.isEmpty {
+                for attachment in attachments {
+                    animator.removeBehavior(attachment)
+                }
+                attachments.removeAll()
+            }
+        }
+    }
 }
 
 private extension CGRect {
