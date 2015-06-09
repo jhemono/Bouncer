@@ -12,6 +12,7 @@
 		86ED3F581B26FE1800D399F9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86ED3F561B26FE1800D399F9 /* Main.storyboard */; };
 		86ED3F5A1B26FE1800D399F9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86ED3F591B26FE1800D399F9 /* Assets.xcassets */; };
 		86ED3F5D1B26FE1800D399F9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86ED3F5B1B26FE1800D399F9 /* LaunchScreen.storyboard */; };
+		86ED3F651B27000300D399F9 /* RealGravityBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86ED3F641B27000300D399F9 /* RealGravityBehavior.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		86ED3F591B26FE1800D399F9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		86ED3F5C1B26FE1800D399F9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86ED3F5E1B26FE1800D399F9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86ED3F641B27000300D399F9 /* RealGravityBehavior.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RealGravityBehavior.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +58,7 @@
 			children = (
 				86ED3F521B26FE1800D399F9 /* AppDelegate.swift */,
 				86ED3F541B26FE1800D399F9 /* ViewController.swift */,
+				86ED3F641B27000300D399F9 /* RealGravityBehavior.swift */,
 				86ED3F561B26FE1800D399F9 /* Main.storyboard */,
 				86ED3F591B26FE1800D399F9 /* Assets.xcassets */,
 				86ED3F5B1B26FE1800D399F9 /* LaunchScreen.storyboard */,
@@ -95,6 +98,7 @@
 				TargetAttributes = {
 					86ED3F4E1B26FE1800D399F9 = {
 						CreatedOnToolsVersion = 7.0;
+						DevelopmentTeam = 89T5H8QNM3;
 					};
 				};
 			};
@@ -135,6 +139,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86ED3F551B26FE1800D399F9 /* ViewController.swift in Sources */,
+				86ED3F651B27000300D399F9 /* RealGravityBehavior.swift in Sources */,
 				86ED3F531B26FE1800D399F9 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -248,10 +253,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Bouncer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gwiad.Bouncer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -259,10 +268,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = Bouncer/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.gwiad.Bouncer;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
