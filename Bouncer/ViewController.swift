@@ -42,52 +42,38 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tappedView(sender: UITapGestureRecognizer) {
-        addBlock()
+        addBlock(center: sender.locationInView(view))
     }
     
-    var blocks = [UIView]()
-    
-    func addBlock() {
+    private func addBlock(center center: CGPoint) {
         let block = UIView()
         block.frame.size = blockSize
-        block.center = view.bounds.center
+        block.center = center
         block.backgroundColor = UIColor.redColor()
         
         view.addSubview(block)
-        blocks.append(block)
+        let panGesture = UIPanGestureRecognizer(target: self, action: "panView:")
+        block.addGestureRecognizer(panGesture)
+        attachments[panGesture] = (view: block, attachment: nil)
         realGravityBehavior.addItem(block)
     }
     
-    var attachments = [UIAttachmentBehavior]()
+    private var attachments = [UIPanGestureRecognizer: (view: UIView, attachment: UIAttachmentBehavior?)]()
 
     @IBAction func panView(sender: UIPanGestureRecognizer) {
         let location = sender.locationInView(view)
-        
-        switch sender.state {
-        case .Began :
-            let targetedBlocks = blocks.filter { $0.frame.contains(location) }
-            attachments = targetedBlocks.map {
-                let attachment = UIAttachmentBehavior(item: $0, attachedToAnchor: location)
-                animator.addBehavior(attachment)
-                return attachment
-            }
-        case .Changed:
-            for attachment in attachments {
-                attachment.anchorPoint = location
-            }
-        default:
-            if !attachments.isEmpty {
-                for attachment in attachments {
-                    animator.removeBehavior(attachment)
-                }
-                attachments.removeAll()
+        if let (view, attachment) = attachments[sender] {
+            switch sender.state {
+            case .Began :
+                let attachment1 = UIAttachmentBehavior(item: view, attachedToAnchor: location)
+                animator.addBehavior(attachment1)
+                attachments[sender] = (view, attachment1)
+            case .Changed:
+                attachment!.anchorPoint = location
+            default:
+                animator.removeBehavior(attachment!)
+                attachments[sender] = (view, nil)
             }
         }
-    }
-}
-
-private extension CGRect {
-    var center: CGPoint {
-        return CGPoint(x: self.origin.x + (self.size.width / 2), y: self.origin.y + (self.size.height / 2))
     }
 }
