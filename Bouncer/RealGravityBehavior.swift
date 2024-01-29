@@ -21,9 +21,10 @@ class RealGravityBehavior: UIDynamicBehavior {
     
     private var itemBehavior: UIDynamicItemBehavior = {
         let behavior = UIDynamicItemBehavior()
-        behavior.elasticity = 0.85
+        behavior.elasticity = 0.60
         behavior.friction = 0
         behavior.resistance = 0
+        behavior.density = 2
         return behavior
     }()
     
@@ -43,17 +44,34 @@ class RealGravityBehavior: UIDynamicBehavior {
         itemBehavior.addItem(item)
     }
     
+    var realGravity: Bool = false {
+        didSet {
+            if realGravity != oldValue {
+                if realGravity && motionManager.accelerometerAvailable {
+                    motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue()) { [unowned self] (data, error) in
+                        if let acceleration = data?.acceleration {
+                            self.gravity.gravityDirection = CGVector(dx: acceleration.x, dy: -acceleration.y)
+                        }
+                    }
+                } else {
+                    motionManager.stopAccelerometerUpdates()
+
+                }
+            }
+        }
+    }
+
+    private var willResignObserver: NSObjectProtocol?
+    private var willActivateObserver: NSObjectProtocol?
+    private let notificationCenter: NSNotificationCenter = { NSNotificationCenter.defaultCenter() }()
+    
     override func willMoveToAnimator(dynamicAnimator: UIDynamicAnimator?) {
         super.willMoveToAnimator(dynamicAnimator)
         
-        if dynamicAnimator != nil && motionManager.accelerometerAvailable {
-            motionManager.startAccelerometerUpdatesToQueue(NSOperationQueue.mainQueue()) { [unowned self] (data, error) in
-                if let acceleration = data?.acceleration {
-                    self.gravity.gravityDirection = CGVector(dx: acceleration.x, dy: -acceleration.y)
-                }
-            }
+        if dynamicAnimator != nil {
+            realGravity = true
         } else {
-            motionManager.stopAccelerometerUpdates()
+            realGravity = false
         }
     }
 
